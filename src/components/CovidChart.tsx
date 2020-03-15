@@ -8,9 +8,11 @@ export interface INormalizedData {
   value: number;
 }
 
+//@ToDo: should take country/region, api-endpointi as prop
 export const CovidChart: React.SFC = () => {
   const { data, error, loading } = useFetch('/timeseries/confirmed');
 
+  //@ToDo: should use generics and extracted to utils
   const normalizeData = (dataArray: any, propertyToFilter: string, filterName: string): any => {
     const propertyToExclude = ['Province/State', 'Country/Region', 'Lat', 'Long'];
     const filteredData = dataArray.filter((item: any) => item[propertyToFilter] === filterName);
@@ -24,7 +26,6 @@ export const CovidChart: React.SFC = () => {
       }
       return acc;
     }, []);
-    console.log(filteredDataToObject);
     return filteredDataToObject;
   };
 
