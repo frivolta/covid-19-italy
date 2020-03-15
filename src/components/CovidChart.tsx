@@ -2,6 +2,7 @@ import * as React from 'react';
 import {getMax} from '../utils/helpers'
 import {  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
 import { useFetch } from '../hooks/useFetch';
+import { endpoints } from '../config/api-endpoint';
 
 export interface INormalizedData {
   date: string;
@@ -10,7 +11,7 @@ export interface INormalizedData {
 
 //@ToDo: should take country/region, api-endpointi as prop
 export const CovidChart: React.SFC = () => {
-  const { data, error, loading } = useFetch('/timeseries/confirmed');
+  const { data, error, loading } = useFetch(endpoints.getInfectedByCountry);
 
   //@ToDo: should use generics and extracted to utils
   const normalizeData = (dataArray: any, propertyToFilter: string, filterName: string): any => {
