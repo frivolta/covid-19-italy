@@ -6,5 +6,5 @@ const createEndpoint = (absoluteUrl: string, endpoint: string): string =>
 
 //Endpoint definitions
 export const endpoints = {
-  getInfectedByCountry: covidUrl + '/timeseries/confirmed'
+  getInfectedByCountry: '/timeseries/confirmed'
 };

@@ -3,6 +3,7 @@ import {getMax} from '../utils/helpers'
 import {  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
 import { useFetch } from '../hooks/useFetch';
 import { endpoints } from '../config/api-endpoint';
+import { extractConfirmedCases, getCountryObject } from '../utils/data-normalize.helper';
 
 export interface INormalizedData {
   date: string;
@@ -17,6 +18,7 @@ export const CovidChart: React.SFC = () => {
   const normalizeData = (dataArray: any, propertyToFilter: string, filterName: string): any => {
     const propertyToExclude = ['Province/State', 'Country/Region', 'Lat', 'Long'];
     const filteredData = dataArray.filter((item: any) => item[propertyToFilter] === filterName);
+    console.log(filteredData)
     const filteredDataToObject = Object.keys(filteredData[0]).reduce((acc: any, key: any) => {
       if (!propertyToExclude.includes(key)) {
         let composedObject: INormalizedData = {
@@ -38,12 +40,18 @@ export const CovidChart: React.SFC = () => {
     return <p>Error</p>;
   }
 
+  if(data){
+    const confirmedWorldCases = extractConfirmedCases(data);
+    const confirmedItalyCases = getCountryObject(confirmedWorldCases, 'Italy');
+    console.log('Custo: ' ,confirmedItalyCases)
+  }
+
   return (
     <>
     <LineChart
       width={600}
       height={500}
-      data={normalizeData(data.confirmed, 'Country/Region', 'Italy')}
+      data={normalizeData(extractConfirmedCases(data), 'Country/Region', 'Italy')}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     >
       <XAxis dataKey="date" />
@@ -51,7 +59,7 @@ export const CovidChart: React.SFC = () => {
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Legend />
-      <ReferenceLine y={getMax(normalizeData(data.confirmed, 'Country/Region', 'Italy'))} label="Max" stroke="red" alwaysShow/>
+      <ReferenceLine y={getMax(normalizeData(extractConfirmedCases(data), 'Country/Region', 'Italy'))} label="Max" stroke="red" alwaysShow/>
       <Line connectNulls type="monotone" dataKey="value" stroke="#8884d8" />
     </LineChart>
     
