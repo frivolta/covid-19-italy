@@ -15,7 +15,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/recharts": "^1.8.7",
     "@types/victory": "^33.1.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "http-proxy-middleware": "^1.0.2",
     "react": "^16.13.0",
     "react-chartjs-2": "^2.9.0",
